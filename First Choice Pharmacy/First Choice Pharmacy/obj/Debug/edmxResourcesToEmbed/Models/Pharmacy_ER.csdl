@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Pharmacy_ER" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="Pharmacy_ERContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AspNetRoles" EntityType="Pharmacy_ER.AspNetRoles" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Pharmacy_ER.AspNetUserLogins" />
+    <EntitySet Name="AspNetUsers" EntityType="Pharmacy_ER.AspNetUsers" />
+    <AssociationSet Name="AspNetUserRoles" Association="Pharmacy_ER.AspNetUserRoles">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Pharmacy_ER.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <EntitySet Name="Product" EntityType="Pharmacy_ER.Product" />
+    <EntitySet Name="Store" EntityType="Pharmacy_ER.Store" />
+    <EntitySet Name="Booking" EntityType="Pharmacy_ER.Booking" />
+    <EntitySet Name="Order" EntityType="Pharmacy_ER.Order" />
+    <EntitySet Name="Rating" EntityType="Pharmacy_ER.Rating" />
+    <AssociationSet Name="ProductOrder" Association="Pharmacy_ER.ProductOrder">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="StoreOrder" Association="Pharmacy_ER.StoreOrder">
+      <End Role="Store" EntitySet="Store" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="OrderRating" Association="Pharmacy_ER.OrderRating">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="Rating" EntitySet="Rating" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUsersBooking" Association="Pharmacy_ER.AspNetUsersBooking">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Booking" EntitySet="Booking" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUsersBooking1" Association="Pharmacy_ER.AspNetUsersBooking1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Booking" EntitySet="Booking" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUsersOrder" Association="Pharmacy_ER.AspNetUsersOrder">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Pharmacy_ER.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Pharmacy_ER.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetRoles" Relationship="Pharmacy_ER.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="Pharmacy_ER.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+    <NavigationProperty Name="Booking" Relationship="Pharmacy_ER.AspNetUsersBooking" FromRole="AspNetUsers" ToRole="Booking" />
+    <NavigationProperty Name="Booking1" Relationship="Pharmacy_ER.AspNetUsersBooking1" FromRole="AspNetUsers" ToRole="Booking" />
+    <NavigationProperty Name="Order" Relationship="Pharmacy_ER.AspNetUsersOrder" FromRole="AspNetUsers" ToRole="Order" />
+  </EntityType>
+  <Association Name="AspNetUserRoles">
+    <End Type="Pharmacy_ER.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+    <End Type="Pharmacy_ER.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Type="Pharmacy_ER.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
+    <End Type="Pharmacy_ER.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" />
+    <Property Name="Description" Type="String" Nullable="false" />
+    <Property Name="Price" Type="String" Nullable="false" />
+    <Property Name="AddDate" Type="DateTime" Nullable="false" />
+    <Property Name="Category" Type="String" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="Pharmacy_ER.ProductOrder" FromRole="Product" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Store">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Address" Type="String" Nullable="false" />
+    <Property Name="Postcode" Type="String" Nullable="false" />
+    <Property Name="OpeningTime" Type="Time" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="Pharmacy_ER.StoreOrder" FromRole="Store" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Booking">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PatientId" Type="String" Nullable="false" />
+    <Property Name="PharmacistId" Type="String" Nullable="false" />
+    <Property Name="DateTime" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Pharmacy_ER.AspNetUsersBooking" FromRole="Booking" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUsers1" Relationship="Pharmacy_ER.AspNetUsersBooking1" FromRole="Booking" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="String" Nullable="false" />
+    <Property Name="StoreId" Type="Int32" Nullable="false" />
+    <Property Name="Time" Type="DateTime" Nullable="false" />
+    <Property Name="Status" Type="String" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Pharmacy_ER.ProductOrder" FromRole="Order" ToRole="Product" />
+    <NavigationProperty Name="Store" Relationship="Pharmacy_ER.StoreOrder" FromRole="Order" ToRole="Store" />
+    <NavigationProperty Name="Rating" Relationship="Pharmacy_ER.OrderRating" FromRole="Order" ToRole="Rating" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Pharmacy_ER.AspNetUsersOrder" FromRole="Order" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="Rating">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Rate" Type="String" Nullable="false" />
+    <Property Name="Comment" Type="String" Nullable="false" />
+    <Property Name="Time" Type="DateTime" Nullable="false" />
+    <Property Name="OrderId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="Pharmacy_ER.OrderRating" FromRole="Rating" ToRole="Order" />
+  </EntityType>
+  <Association Name="ProductOrder">
+    <End Type="Pharmacy_ER.Product" Role="Product" Multiplicity="1" />
+    <End Type="Pharmacy_ER.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StoreOrder">
+    <End Type="Pharmacy_ER.Store" Role="Store" Multiplicity="1" />
+    <End Type="Pharmacy_ER.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Store">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="StoreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrderRating">
+    <End Type="Pharmacy_ER.Order" Role="Order" Multiplicity="1" />
+    <End Type="Pharmacy_ER.Rating" Role="Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUsersBooking">
+    <End Type="Pharmacy_ER.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
+    <End Type="Pharmacy_ER.Booking" Role="Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="PatientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUsersBooking1">
+    <End Type="Pharmacy_ER.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
+    <End Type="Pharmacy_ER.Booking" Role="Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="PharmacistId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUsersOrder">
+    <End Type="Pharmacy_ER.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
+    <End Type="Pharmacy_ER.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

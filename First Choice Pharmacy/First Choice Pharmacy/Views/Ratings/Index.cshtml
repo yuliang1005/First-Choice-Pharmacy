@@ -1,0 +1,173 @@
+﻿@model IEnumerable<Assignment2.Models.Rating>
+
+@{
+    ViewBag.Title = "Reviews";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string url = System.Web.HttpContext.Current.Request.Url.ToString();
+    Uri uri = new Uri(url);
+    string productId = HttpUtility.ParseQueryString(uri.Query).Get("productid");
+}
+
+<h2>Reviews</h2>
+
+<p>
+    <a href="/Products/Details/@productId">Back</a>
+    <a href="/Ratings/Create?productid=@productId" class="btn btn-primary" role="button" style="float:right">Make a Review!</a>
+</p>
+@if (ViewBag.Result != null)
+{
+    <div class="alert alert-danger">@ViewBag.Result</div>
+}
+@{
+    double a = 0;
+    int i = 0;
+    foreach (var item in Model)
+    {
+        a += int.Parse(item.Rate);
+        i++;
+    }
+    double average = a / i;
+}
+@if (average < 1)
+{
+    <h3>Overall Rating: &#10025;</h3>
+}
+else if (average >= 1 && average < 2)
+{
+    <h3 class="panel-heading">Overall Rating: &#11088;(@average)</h3>
+}
+else if (average >= 2 && average < 3)
+{
+    <h3 class="panel-heading">Overall Rating: &#11088;&#11088;(@average)</h3>
+}
+else if (average >= 3 && average < 4)
+{
+    <h3 class="panel-heading">Overall Rating: &#11088;&#11088;&#11088;(@average)</h3>
+}
+else if (average >= 4 && average < 5)
+{
+
+    <h3 class="panel-heading">Overall Rating: &#11088;&#11088;&#11088;&#11088;(@average)</h3>
+}
+else if (average == 5)
+{
+    <h3 class="panel-heading">Overall Rating: &#11088;&#11088;&#11088;&#11088;&#11088;(@average)</h3>
+}
+else
+{
+    <h3 class="panel-heading">No Review</h3>
+}
+
+@if (User.IsInRole("Admin"))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Rate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Comment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Time)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserId)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Time)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    foreach (var item in Model)
+    {
+        <div class="panel panel-info">
+            @if (item.Rate == "1")
+            {
+                <div class="panel-heading">
+                    Rating: &#11088;
+                    <p style="float:right">@Html.DisplayFor(modelItem => item.Time)</p>
+                </div>
+            }
+            else if (item.Rate == "2")
+            {
+                <div class="panel-heading">
+                    Rating: &#11088;&#11088;
+                    <p style="float:right">@Html.DisplayFor(modelItem => item.Time)</p>
+                </div>
+            }
+            else if (item.Rate == "3")
+            {
+                <div class="panel-heading">
+                    Rating: &#11088;&#11088;&#11088;
+                    <p style="float:right">@Html.DisplayFor(modelItem => item.Time)</p>
+                </div>
+            }
+            else if (item.Rate == "4")
+            {
+
+
+                <div class="panel-heading">
+                    Rating: &#11088;&#11088;&#11088;&#11088;
+                    <p style="float:right">@Html.DisplayFor(modelItem => item.Time)</p>
+                </div>
+            }
+            else
+            {
+                <div class="panel-heading">
+                    Rating: &#11088;&#11088;&#11088;&#11088;&#11088;
+                    <p style="float:right">@Html.DisplayFor(modelItem => item.Time)</p>
+                </div>
+            }
+
+
+            <div class="panel-body">@Html.DisplayFor(modelItem => item.Comment)</div>
+        </div>
+    }
+}
+@section Scripts {
+
+    @Scripts.Render("~/Scripts/DataTables/jquery.dataTables.js")
+    @Scripts.Render("~/Scripts/DataTables/dataTables.bootstrap.js")
+    <script>
+ $(document).ready(function () {
+ $('.table').DataTable();
+ });
+    </script>
+}
+<link href="~/Content/DataTables/css/dataTables.bootstrap.min.css"
+      rel="stylesheet" />
+

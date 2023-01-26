@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Assignment2.Models.Booking>
+
+@{
+    ViewBag.Title = "Modify Bookings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (User.IsInRole("Admin"))
+{
+    { Response.Redirect("/Bookings/ViewAllBookings"); }
+}
+<h2>Modify</h2>
+@Html.ActionLink("Back", "Index")
+<table class="table">
+    <tr>
+        @if (User.IsInRole("Pharmacist"))
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.PatientId)
+            </th>
+        }
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Start)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.End)
+        </th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+
+        <tr>
+            @if (User.IsInRole("Pharmacist"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.PatientId)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Start)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.End)
+            </td>
+            @if (item.PharmacistId == null)
+            {
+                <td class="p-3 mb-2 bg-warning text-dark">Wait for Confirmed</td>
+            }
+            else
+            {
+                if (DateTime.Now >= item.Start && DateTime.Now < item.End)
+                {
+                    <td class="p-3 mb-2 bg-danger text-white">Ongoing</td>
+                }
+                else if (DateTime.Now >= item.End)
+                {
+                    <td class="p-3 mb-2 bg-light text-dark">Closed</td>
+                }
+                else
+                {
+                    <td class="p-3 mb-2 bg-success text-white">Confirmed</td>
+                }
+            }
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+
+
+        </tr>
+    }
+
+</table>

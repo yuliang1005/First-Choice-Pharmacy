@@ -1,0 +1,84 @@
+﻿@model Assignment2.Models.SendEmailViewModel
+
+@{
+    ViewBag.Title = "Send A Email to User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string url = System.Web.HttpContext.Current.Request.Url.ToString();
+    Uri uri = new Uri(url);
+    string emails = HttpUtility.ParseQueryString(uri.Query).Get("emails");
+}
+
+<h2>Send Notification to Users</h2>
+
+
+
+@using (Html.BeginForm("SendAds", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    if (@ViewBag.Result != null)
+    {
+        <div class="alert alert-success">@ViewBag.Result</div>
+    }
+    if (emails == null)
+    {
+        { Response.Redirect("/Home/SendAdTo");}
+    }
+
+    <div class="form-horizontal">
+
+        <h4>Send an Ad below:</h4>
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group" style="display:none">
+            @Html.LabelFor(model => model.ToEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ToEmail, new { htmlAttributes = new { @class = "form-control", @Value = emails } })
+                @Html.ValidationMessageFor(model => model.ToEmail, "", new { @class = "text-danger" })
+                @if (ViewBag.EmailError != null)
+                {
+                    <p class="text-danger">@ViewBag.EmailError</p>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Contents, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Contents, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Contents, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Path">Attachment</label>
+            <div class="col-md-10">
+                <input type="file" name="postedFile" class="btn btn-default" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Send" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back", "SendAdTo")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

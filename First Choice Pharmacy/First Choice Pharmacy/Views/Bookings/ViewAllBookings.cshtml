@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Assignment2.Models.Booking>
+
+@{
+    ViewBag.Title = "Manage All Bookings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Manage All Bookings</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Start)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientId)
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.End)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Start)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PatientId)
+        </td>
+            @if (item.PharmacistId == null)
+            {
+            <td class="p-3 mb-2 bg-warning text-dark">Wait for Confirmed</td>
+            }
+            else
+            {
+                if (DateTime.Now >= item.Start && DateTime.Now < item.End)
+                {
+                <td class="p-3 mb-2 bg-danger text-white">Ongoing</td>
+                }
+                else if (DateTime.Now >= item.End)
+                {
+                <td class="p-3 mb-2 bg-light text-dark">Closed</td>
+                }
+                else
+                {
+                <td class="p-3 mb-2 bg-success text-white">Confirmed</td>
+                }
+            }
+                <td>
+                    @Html.DisplayFor(modelItem => item.End)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+}
+
+</table>

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+  <Alias Key="Model" Value="Pharmacy_ER" />
+  <Alias Key="Target" Value="Pharmacy_ER.Store" />
+  <EntityContainerMapping CdmEntityContainer="Pharmacy_ERContainer" StorageEntityContainer="Pharmacy_ERTargetContainer" />
+</Mapping>

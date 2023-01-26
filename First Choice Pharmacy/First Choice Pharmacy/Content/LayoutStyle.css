@@ -1,0 +1,46 @@
+﻿@font-face {
+    font-family: 'Signika Negative';
+    src: url('../fonts/signika_negative/signikanegative-regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Signika Negative';
+    src: url('../fonts/signika_negative/signikanegative-bold.ttf') format('truetype');
+    font-weight: bold;
+}
+body{
+    font-family: 'Signika Negative';
+    font-size: medium;
+}
+.navbar-brand{
+    color: white;
+}
+.navbar-brand:hover{
+    color: white;
+}
+.navbar-brand div{
+    display: inline-block;
+}
+.nav.navbar-nav li a {
+    color: white;
+    transition: background-color 0.5s;
+}
+.nav.navbar-nav li a:hover{
+    background-color: #1B5E20;
+    color: white;
+    text-decoration: none;
+}
+.carousel .item {
+    height: 500px;
+}
+
+.item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 500px;
+    transition: filter 0.5s;
+    transition-timing-function: ease;
+}
+.item img:hover{
+    filter: brightness(85%);
+}

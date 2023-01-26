@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Assignment2.Models.AspNetUsers>
+@{
+    ViewBag.Title = "Please select the email address you want to send";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SendAdTo</h2>
+
+<div id="checkEmail">
+    @foreach (var item in Model)
+    {
+        <div class="form-check">
+            <input type="checkbox" value="@item.Email" class="form-check-input" id="mySwitch" />
+            <label class="form-check-label" for="flexSwitchCheckDefault">@item.FirstName  @item.LastName - @item.Email</label>
+        </div>
+    }
+
+</div>
+<p class="result" style="color:red"></p>
+<button id="next" class="btn btn-success">Next</button>
+<script>
+    var checkEmail = document.getElementById("checkEmail");
+    var checkBoxes = checkEmail.querySelectorAll('input[type="checkbox"]');
+    document.getElementById('next').addEventListener('click', setEmails);
+    var emails = "";
+    var emailCount = 0;
+    function setEmails() {
+        emails = "";
+        var emailCount = 0;
+        checkBoxes.forEach(item => { // loop all the checkbox item
+            if (item.checked) {  //if the check box is checked
+                emails += item.value + ",";
+                emailCount++;
+            }
+        })
+        if (emailCount == 0) {
+            document.querySelector('.result').textContent = "please select at least one email address!";
+        } else {
+            window.location.href = "/Home/SendAds?emails=" + emails;
+        }
+    }
+</script>

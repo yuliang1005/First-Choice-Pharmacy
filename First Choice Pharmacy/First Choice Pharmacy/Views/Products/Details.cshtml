@@ -1,0 +1,68 @@
+﻿@model Assignment2.Models.Product
+
+@{
+    ViewBag.Title = "Product Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+@Html.ActionLink("Back", "Index")
+<div>
+    <div class="row">
+        <div class="col-sm-6"></div>
+        <div class="col-sm-6"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" style="text-align:center"><img class="img-thumbnail img-rounded" style="height:400px;width:400px;" src="@Url.Content("~/Images/Product/" + @Html.DisplayFor(model => model.Path))" alt="@Html.DisplayFor(model => model.Title)" /></div>
+        <div class="col-sm-6">
+            <h1>@Html.DisplayFor(model => model.Title)</h1>
+            <h2>$@Html.DisplayFor(model => model.Price)</h2>
+            <p>Category: @Html.DisplayFor(model => model.Category)</p>
+            <a href='/Ratings?productid=@Model.Id'>View Ratings</a>
+        </div>
+    </div>
+    <br />
+    <div style="position:fixed;background-color:cornsilk;opacity:0.7;left:90%">
+        <label id="font-size">Font Size: </label>
+        <input type="range" min="10" max="30" id="slider" class="form-range"
+               onchange="changeSizeBySlider()" value="20" />
+    </div>
+    <br />
+    <h2>Information</h2>
+    @*@Html.DisplayFor(model => model.Description)*@
+    <div id="description">@Html.Raw(Model.Description)</div>
+    <script>
+        function changeSizeBySlider() {
+            var slider = document.getElementById("slider");
+            if (slider.value >= 10 && slider.value < 15) {
+                document.getElementById("description").style.fontSize = "x-small";
+            } else if (slider.value >= 15 && slider.value < 20) {
+                document.getElementById("description").style.fontSize = "small";
+            } else if (slider.value >= 20 && slider.value < 25) {
+                document.getElementById("description").style.fontSize = "medium";
+            } else if (slider.value >= 25 && slider.value < 30) {
+                document.getElementById("description").style.fontSize = "large";
+            } else {
+                document.getElementById("description").style.fontSize = "x-large";
+            }
+        }
+    </script>
+</div>
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+        <br />
+        @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+        <br />
+    }
+
+</p>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        tinymce.init({
+            selector: "#mytextarea"
+        })
+    </script>
+}

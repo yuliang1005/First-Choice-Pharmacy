@@ -1,0 +1,76 @@
+﻿@model Assignment2.Models.Booking
+
+@{
+    ViewBag.Title = "Confirm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Confirm Your Appointment</h2>
+@Html.ActionLink("Back", "Index")
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (@ViewBag.Result != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Result</div>
+    }
+
+    <div class="form-horizontal">
+        <h4>Booking</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Start)
+        @Html.HiddenFor(model => model.Title)
+        @Html.HiddenFor(model => model.End)
+        @Html.HiddenFor(model => model.PatientId)
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Start)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Start)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.PatientId)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PatientId)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.End)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.End)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+
+            </dl>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Confirm" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

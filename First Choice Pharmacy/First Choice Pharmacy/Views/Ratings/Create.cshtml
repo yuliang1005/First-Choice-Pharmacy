@@ -1,0 +1,57 @@
+﻿@model Assignment2.Models.Rating
+
+@{
+    ViewBag.Title = "Add a Review";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string url = System.Web.HttpContext.Current.Request.Url.ToString();
+    Uri uri = new Uri(url);
+    string productId = HttpUtility.ParseQueryString(uri.Query).Get("productid");
+}
+
+<h2>Make a Comment</h2>
+<a href="/Ratings?productid=@productId">Back</a>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (@ViewBag.Result != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Result</div>
+    }
+
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            1
+            @Html.RadioButtonFor(model => model.Rate, "1")
+            2
+            @Html.RadioButtonFor(model => model.Rate, "2")
+            3
+            @Html.RadioButtonFor(model => model.Rate, "3")
+            4
+            @Html.RadioButtonFor(model => model.Rate, "4")
+            5
+            @Html.RadioButtonFor(model => model.Rate, "5")
+            @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
